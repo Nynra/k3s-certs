@@ -1,0 +1,47 @@
+namespace: cert-manager
+targetRevision: v1.17.2
+enableIssuers: true
+enableCerts: true
+enablePushCerts: false
+
+cert-manager: 
+  crds:
+    enabled: true
+    replicaCount: 3
+    extraArgs:
+      - --dns01-recursive-nameservers=1.1.1.1:53,9.9.9.9:53
+      - --dns01-recursive-nameservers-only
+    podDnsPolicy: None
+    podDnsConfig:
+      nameservers:
+        - 1.1.1.1
+        - 9.9.9.9
+
+issuers:
+  - name: cloudflare-issuer-example
+    privateKeyName: cloudflare-issuer-private-key
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    externalSecret:
+      name: cloudflare-issuer-example-secret
+      remoteSecretName: cloudflare-issuer-secret
+      remoteSecretStore: kubernetes
+      tokenPropertyName: password
+    domains:
+      - example1.com
+      - example2.com
+    # Add more domains as needed
+
+certsVault:
+  name: certs-vault
+  vaultName: homelab-certs-vault
+  connectTokenSecretName: onepassword-connect-token
+  connectTokenNamespace: external-secrets
+
+certs:
+  - name: example-com-tls
+    commonName: example.com
+    clusterIssuer: letsencrypt-staging
+    dnsNames:
+      - example.com
+      - "*.example.com"
+    # Add more domains as needed
