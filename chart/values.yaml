@@ -1,6 +1,7 @@
 namespace: cert-manager
 targetRevision: v1.17.2
 enableIssuers: true
+enableCertsVault: false
 enableCerts: true
 enablePushCerts: false
 
