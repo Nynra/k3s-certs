@@ -1,4 +1,4 @@
-{{- if .Values.enablePushCerts }}
+{{- if .Values.enableCertsVault }}
 apiVersion: external-secrets.io/v1
 kind: ClusterSecretStore
 metadata:
