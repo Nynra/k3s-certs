@@ -33,5 +33,6 @@ spec:
           connectTokenSecretRef:
             name: {{ .Values.certPullVault.connectTokenSecretName | quote }}
             key: token
+            namespace: {{ .Values.certPullVault.connectTokenNamespace | quote }}
 {{- end }}{{- end }}
 
