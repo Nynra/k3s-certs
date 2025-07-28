@@ -1,5 +1,5 @@
-{{- if .Values.enableExternalSecrets }}{{- if .Values.certPushVaults.enabled }}
-{{- range .Values.certPushVaults.secretStores }}
+{{- if .Values.enableExternalSecrets }}{{- if .Values.certsPushVaults.enabled }}
+{{- range .Values.certsPushVaults.secretStores }}
 apiVersion: external-secrets.io/v1
 kind: SecretStore
 metadata:
@@ -33,8 +33,8 @@ spec:
       auth:
         secretRef:
           connectTokenSecretRef:
-            name: {{ .connectToken.name | default $.Values.certPushVaults.connectToken.name | quote }}
+            name: {{ .connectToken.name | default $.Values.certsPushVaults.connectToken.name | quote }}
             key: token
-            namespace: {{ .connectToken.namespace | default $.Values.certPushVaults.connectToken.namespace | quote }}
+            namespace: {{ .connectToken.namespace | default $.Values.certsPushVaults.connectToken.namespace | quote }}
 {{- end }}
 {{- end }}{{- end }}
