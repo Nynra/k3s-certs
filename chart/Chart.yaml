@@ -7,8 +7,3 @@ dependencies:
 - name: cert-manager
   version: v1.17.2
   repository: "https://charts.jetstack.io"
-  condition: enableCertManager
-- name: external-secrets
-  version: "0.18.1"
-  repository: https://charts.external-secrets.io
-  condition: enableScopedOperator

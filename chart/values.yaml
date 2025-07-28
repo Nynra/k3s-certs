@@ -1,13 +1,8 @@
 namespace: cert-manager
 targetRevision: v1.17.2
 
-# Enable cert-manager to manage certificates and issuers.
-# If false the chart will only be able to create the clusterSecretStore for pulling certificates.
-enableCertManager: true
-
 # Enable the external-secrets operator needed to interact with external-secrets CRDs.
 enableExternalSecrets: true
-enableScopedOperator: false
 
 clusterIssuers:
   enabled: false
@@ -54,9 +49,8 @@ clusterIssuers:
 # permissions to the vaults.
 # This is useful for pushing certificates to a vault like 1Password for use
 # in other namespaces or clusters.
-certPushVaults:
+certSecretStores:
   enabled: true
-
   connectToken:
     # Name of the secret in the cluster that contains the connect token.
     # This is used to authenticate with the vault. Can be set for individual vaults
@@ -67,24 +61,11 @@ certPushVaults:
   secretStores:
     - name: certs-push-vault
       vaultName: kubernetes-certs-vault
-      # If the connect token is not set, the default connect token from certPushVaults.connectToken will be used.
-      connectToken:
-        name: onepassword-connect-token
-        namespace: external-secrets
+      # If the connect token is not set, the default connect token from certSecretStores.connectToken will be used.
+      # connectToken:
+      #   name: onepassword-connect-token
+      #   namespace: external-secrets
 
-# Cluster secret store for clients to pull certificates from.
-# This is useful for clients that need to pull certificates from the cluster
-# like ingress controllers or other applications that need to use the certificates.
-# The operator used to pull the certificates should not have write access to the
-# secret store, only read access, otherwise clients will be able to modify the
-# certificates.
-certsPullVault:
-  enabled: false
-  name: certs-pull-vault
-  vaultName: homelab-certs-pull-vault
-  connectToken:
-    name: onepassword-connect-token
-    namespace: external-secrets
 
 # Enable certs management using the defined issuers
 certs:

@@ -6,8 +6,6 @@ apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
   name: {{ .secretName | quote }}
-  # Argocd cannot add secrets to the default namespace but issuers look
-  # in the cert-manager namespace automatically
   namespace: {{ $.Values.namespace | quote }}
   annotations:
     argocd.argoproj.io/sync-wave: "-10"

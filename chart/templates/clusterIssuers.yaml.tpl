@@ -1,4 +1,4 @@
-{{- if .Values.enableCertManager }}{{- if .Values.clusterIssuers.enabled }}
+{{- if .Values.clusterIssuers.enabled }}
 {{- range .Values.clusterIssuers.issuers }}
 ---
 apiVersion: cert-manager.io/v1
@@ -25,4 +25,4 @@ spec:
           - "{{ . }}"
           {{- end }} 
 {{- end }}
-{{- end }}{{- end }}
+{{- end }}
