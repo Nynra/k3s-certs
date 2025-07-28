@@ -31,6 +31,7 @@ enableCertManager: true
 
 # Enable the external-secrets operator needed to interact with external-secrets CRDs.
 enableExternalSecrets: true
+enableScopedOperator: false
 
 clusterIssuers:
   enabled: false
