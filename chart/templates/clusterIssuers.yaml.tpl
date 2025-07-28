@@ -28,7 +28,7 @@ spec:
   acme:
     server: {{ .server | quote }}
     privateKeySecretRef:
-      name: {{ .privateKeyName  | quote }}
+      name: {{ .name | quote }}-private-key
       key: token
     solvers:
       - dns01:
