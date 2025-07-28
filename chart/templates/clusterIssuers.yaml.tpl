@@ -12,8 +12,8 @@ metadata:
     {{ toYaml $.Values.global.commonAnnotations | indent 4 }}
     {{- end }}
     # Custom annotations
-    {{- if .commonAnnotations }}
-    {{ toYaml .commonAnnotations | indent 4 }}
+    {{- if .annotations }}
+    {{ toYaml .annotations | indent 4 }}
     {{- end }}
   labels:
     # Global labels
@@ -21,8 +21,8 @@ metadata:
     {{ toYaml $.Values.global.commonLabels | indent 4 }}
     {{- end }}
     # Custom labels
-    {{- if .commonLabels }}
-    {{ toYaml .commonLabels | indent 4 }}
+    {{- if .labels }}
+    {{ toYaml .labels | indent 4 }}
     {{- end }}
 spec:
   acme:
