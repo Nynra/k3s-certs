@@ -113,7 +113,7 @@ certs:
     enabled: false
     # Default settings for certificates pushed to vaults
     refreshInterval: 1h
-    certPushVault: kubernetes-certs-vault
+    secretStore: kubernetes-certs-vault
 
   certs:
     - name: example-com-tls
@@ -141,7 +141,7 @@ certs:
         # Name of the vault to push the certificate to.
         # If not set, the default vault from certs.push will be used.
         # This vault must be defined in certPushVaults.
-        # certPushVault: certs-push-vault
+        # secretStore: certs-push-vault
 
 # Cluster secret store for clients to pull certificates from.
 # This is useful for clients that need to pull certificates from the cluster

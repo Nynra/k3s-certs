@@ -1,6 +1,6 @@
 {{- if .Values.enableExternalSecrets }}{{- if .Values.certs.enabled }}{{- if .Values.certs.push.enabled }}
 {{- range .Values.certs }}
-{{- if .push.enabled }}
+{{- if .push.enabled | default false }}
 {{- $remoteName := .push.secretName | default .name }}
 ---
 apiVersion: external-secrets.io/v1alpha1
@@ -36,7 +36,7 @@ spec:
       kind: SecretStore
   selector:
     secret:
-      name: {{ .name }}
+      name: {{ .name | quote }}
   data:
     - match:
         secretKey: tls.crt 
