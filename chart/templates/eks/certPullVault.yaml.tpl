@@ -31,8 +31,8 @@ spec:
       auth:
         secretRef:
           connectTokenSecretRef:
-            name: {{ .Values.certPullVault.connectTokenSecretName | quote }}
+            name: {{ .Values.certPullVault.connectToken.name | quote }}
             key: token
-            namespace: {{ .Values.certPullVault.connectTokenNamespace | quote }}
+            namespace: {{ .Values.certPullVault.connectToken.namespace | quote }}
 {{- end }}{{- end }}
 

@@ -155,8 +155,9 @@ certsPullVault:
   commonAnnotations: {}
   name: certs-pull-vault
   vaultName: homelab-certs-pull-vault
-  connectTokenSecretName: onepassword-connect-token
-  connectTokenNamespace: external-secrets
+  connectToken:
+    name: onepassword-connect-token
+    namespace: external-secrets
 
 # Helm values passed to the cert-manager chart.
 cert-manager: 
