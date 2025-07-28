@@ -1,22 +1,22 @@
-{{- if .Values.enableCerts }}
-{{- range .Values.certs }}
+{{- if .Values.enableCertManager }}{{- if .Values.certs.enabled }}
+{{- range .Values.certs.certs }}
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: {{ .name }}
-  namespace: "{{ $.Values.namespace }}"
+  name: {{ .name | quote }}
+  namespace: {{ $.Values.namespace | quote }}
   annotations:
     argocd.argoproj.io/sync-wave: "-8"
 spec:
-  secretName: {{ .name }}
-  commonName: {{ .commonName }}
+  secretName: {{ .name | quote }}
+  commonName: {{ .commonName | quote }}
   dnsNames:
     {{- range .dnsNames }}
     - "{{ . }}"
     {{- end }}
   issuerRef:
-    name: {{ .clusterIssuer }}
+    name: {{ .clusterIssuer | quote }}
     kind: ClusterIssuer
 {{- end }}
-{{- end }}
+{{- end }}{{- end }}

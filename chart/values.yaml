@@ -1,14 +1,167 @@
+global:
+  # Global node selector
+  # The nodeSelector on Pods tells Kubernetes to schedule Pods on the nodes with matching labels.
+  # For more information, see [Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/).
+  # If a component-specific nodeSelector is also set, it will take precedence.
+  nodeSelector: {}
+
+  # Labels to apply to all resources.
+  # Please note that this does not add labels to the resources created dynamically by the controllers.
+  # For these resources, you have to add the labels in the template in the cert-manager custom resource:
+  # For example, podTemplate/ ingressTemplate in ACMEChallengeSolverHTTP01Ingress
+  # For more information, see the [cert-manager documentation](https://cert-manager.io/docs/reference/api-docs/#acme.cert-manager.io/v1.ACMEChallengeSolverHTTP01Ingress).
+  # For example, secretTemplate in CertificateSpec
+  # For more information, see the [cert-manager documentation](https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.CertificateSpec).
+  commonLabels: {}
+
+  # Annotations to apply to all resources.
+  # Please note that this does not add annotations to the resources created dynamically by the controllers.
+  # For these resources, you have to add the annotations in the template in the cert-manager
+  commonAnnotations: {}
+
+  # The optional priority class to be used for the cert-manager pods.
+  priorityClassName: ""
+
 namespace: cert-manager
 targetRevision: v1.17.2
-enableIssuers: true
-enableCertsVault: false
-enableCerts: true
-enablePushCerts: false
 
+# Enable cert-manager to manage certificates and issuers.
+# If false the chart will only be able to create the clusterSecretStore for pulling certificates.
+enableCertManager: true
+
+# Enable the external-secrets operator needed to interact with external-secrets CRDs.
+enableExternalSecrets: true
+
+clusterIssuers:
+  enabled: false
+  commonLabels: {}
+  commonAnnotations: {}
+
+  issuers:
+  # Issuer with all fields
+  - name: letsencrypt-staging-all-fields
+    privateKeyName: letsencrypt-staging-all-fields-private-key
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    # Only existing secrets are supported, either an external secret
+    # or a previously created secret
+    secretName: cloudflare-issuer-secret
+    externalSecret:
+      enabled: true
+      # Name in the remote secret store
+      secretName: cloudflare-issuer-secret
+      # Name of the deployed secret store in the cluster
+      secretStore: kubernetes
+      # Type is optional but will default to ClusterSecretStore
+      # secretStoreType: ClusterSecretStore
+
+      # Property of the remote secret store that contains the token
+      # Optional, will default to "token"
+      # tokenPropertyName: password
+    domains:
+      - example1.com
+      - example2.com
+    # Add more domains as needed
+
+  # Issuer with only the required fields
+  # - name: letsencrypt-staging
+  #   privateKeyName: letsencrypt-staging-private-key
+  #   server: https://acme-staging-v02.api.letsencrypt.org/directory
+  #   secretName: cloudflare-issuer-secret
+  #   externalSecret:
+  #     enabled: true
+  #     secretName: cloudflare-issuer-secret
+  #     secretStore: kubernetes
+  #   # Or with externalSecret.enabled: false an existing secret is used
+  #   domains:
+  #     - example1.com
+  #     - example2.com
+
+# Scoped external secret vaults to push certificates to. To use these vaults
+# external-secrets must be configured to use the vaults and have read/write
+# permissions to the vaults.
+# This is useful for pushing certificates to a vault like 1Password for use
+# in other namespaces or clusters.
+certPushVaults:
+  enabled: true
+  commonAnnotations: {}
+  commonLabels: {}
+
+  connectToken:
+    # Name of the secret in the cluster that contains the connect token.
+    # This is used to authenticate with the vault. Can be set for individual vaults
+    # or globally for all vaults.
+    name: onepassword-connect-token
+    namespace: external-secrets
+
+  secretStores:
+    - name: certs-push-vault
+      vaultName: kubernetes-certs-vault
+      # If the connect token is not set, the default connect token from certPushVaults.connectToken will be used.
+      # connectToken:
+      #   name: onepassword-connect-token
+      #   namespace: external-secrets
+
+# Enable certs management using the defined issuers
+certs:
+  enabled: true
+  commonLabels: {}
+  commonAnnotations: {}
+
+  # If enabled, the operator will push the certificates to the vaults defined in certPushVaults
+  push: 
+    # If enabled, the certificates will be pushed to the vaults defined in certPushVaults
+    enabled: false
+    # Default settings for certificates pushed to vaults
+    refreshInterval: 1h
+    certPushVault: kubernetes-certs-vault
+
+  certs:
+    - name: example-com-tls
+      commonName: example.com
+      clusterIssuer: letsencrypt-staging
+      dnsNames:
+        - example.com
+        - "*.example.com"
+      annotations: {}
+      labels: {}
+      push: 
+        # If enabled, the certificate will be pushed to the vaults defined in certPushVaults
+        # Will only work if certs.push.enabled and certPushVaults.enabled are true.
+        enabled: true
+        annotations: {}
+        labels: {}
+        # Refresh interval for the certificate in the vaults
+        # This is the interval at which the certificate will be updated in the vaults
+        # If not set, the default refresh interval from certs.push will be used.
+        # refreshInterval: 1h
+
+        # Name of the secret in the vault. If not set the name of the certificate will be used.
+        # secretName: example-com-tls
+
+        # Name of the vault to push the certificate to.
+        # If not set, the default vault from certs.push will be used.
+        # This vault must be defined in certPushVaults.
+        # certPushVault: certs-push-vault
+
+# Cluster secret store for clients to pull certificates from.
+# This is useful for clients that need to pull certificates from the cluster
+# like ingress controllers or other applications that need to use the certificates.
+# The operator used to pull the certificates should not have write access to the
+# secret store, only read access, otherwise clients will be able to modify the
+# certificates.
+certsPullVault:
+  enabled: false
+  commonLabels: {}
+  commonAnnotations: {}
+  name: certs-pull-vault
+  vaultName: homelab-certs-pull-vault
+  connectTokenSecretName: onepassword-connect-token
+
+# Helm values passed to the cert-manager chart.
 cert-manager: 
   crds:
     enabled: true
-  replicaCount: 3
+  replicaCount: 1
   extraArgs:
     - --dns01-recursive-nameservers=1.1.1.1:53,9.9.9.9:53
     - --dns01-recursive-nameservers-only
@@ -17,32 +170,3 @@ cert-manager:
     nameservers:
       - 1.1.1.1
       - 9.9.9.9
-
-issuers:
-  - name: cloudflare-issuer-example
-    privateKeyName: cloudflare-issuer-private-key
-    server: https://acme-staging-v02.api.letsencrypt.org/directory
-    externalSecret:
-      name: cloudflare-issuer-example-secret
-      remoteSecretName: cloudflare-issuer-secret
-      remoteSecretStore: kubernetes
-      tokenPropertyName: password
-    domains:
-      - example1.com
-      - example2.com
-    # Add more domains as needed
-
-certsVault:
-  name: certs-vault
-  vaultName: homelab-certs-vault
-  connectTokenSecretName: onepassword-connect-token
-  connectTokenNamespace: external-secrets
-
-certs:
-  - name: example-com-tls
-    commonName: example.com
-    clusterIssuer: letsencrypt-staging
-    dnsNames:
-      - example.com
-      - "*.example.com"
-    # Add more domains as needed
