@@ -97,9 +97,25 @@ certPushVaults:
     - name: certs-push-vault
       vaultName: kubernetes-certs-vault
       # If the connect token is not set, the default connect token from certPushVaults.connectToken will be used.
-      # connectToken:
-      #   name: onepassword-connect-token
-      #   namespace: external-secrets
+      connectToken:
+        name: onepassword-connect-token
+        namespace: external-secrets
+
+# Cluster secret store for clients to pull certificates from.
+# This is useful for clients that need to pull certificates from the cluster
+# like ingress controllers or other applications that need to use the certificates.
+# The operator used to pull the certificates should not have write access to the
+# secret store, only read access, otherwise clients will be able to modify the
+# certificates.
+certsPullVault:
+  enabled: false
+  commonLabels: {}
+  commonAnnotations: {}
+  name: certs-pull-vault
+  vaultName: homelab-certs-pull-vault
+  connectToken:
+    name: onepassword-connect-token
+    namespace: external-secrets
 
 # Enable certs management using the defined issuers
 certs:
@@ -142,22 +158,6 @@ certs:
         # If not set, the default vault from certs.push will be used.
         # This vault must be defined in certPushVaults.
         # secretStore: certs-push-vault
-
-# Cluster secret store for clients to pull certificates from.
-# This is useful for clients that need to pull certificates from the cluster
-# like ingress controllers or other applications that need to use the certificates.
-# The operator used to pull the certificates should not have write access to the
-# secret store, only read access, otherwise clients will be able to modify the
-# certificates.
-certsPullVault:
-  enabled: false
-  commonLabels: {}
-  commonAnnotations: {}
-  name: certs-pull-vault
-  vaultName: homelab-certs-pull-vault
-  connectToken:
-    name: onepassword-connect-token
-    namespace: external-secrets
 
 # Helm values passed to the cert-manager chart.
 cert-manager: 
