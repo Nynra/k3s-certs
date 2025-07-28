@@ -29,7 +29,7 @@ spec:
   data:
     - secretKey: token
       remoteRef:
-        key: {{ .externalSecret.secretName | quote }}
+        key: {{ .secretName | quote }}
         property: {{ .externalSecret.tokenPropertyName | default "password" | quote }}
 {{- end }}
 {{- end }}

@@ -39,29 +39,29 @@ clusterIssuers:
   commonAnnotations: {}
 
   issuers:
-  # Issuer with all fields
-  - name: letsencrypt-staging-all-fields
-    privateKeyName: letsencrypt-staging-all-fields-private-key
-    server: https://acme-staging-v02.api.letsencrypt.org/directory
-    # Only existing secrets are supported, either an external secret
-    # or a previously created secret
-    secretName: cloudflare-issuer-secret
-    externalSecret:
-      enabled: true
-      # Name in the remote secret store
+    # Issuer with all fields
+    - name: letsencrypt-staging-all-fields
+      privateKeyName: letsencrypt-staging-all-fields-private-key
+      server: https://acme-staging-v02.api.letsencrypt.org/directory
+      # Only existing secrets are supported, either an external secret
+      # or a previously created secret
       secretName: cloudflare-issuer-secret
-      # Name of the deployed secret store in the cluster
-      secretStore: kubernetes
-      # Type is optional but will default to ClusterSecretStore
-      # secretStoreType: ClusterSecretStore
+      externalSecret:
+        enabled: true
+        # Name in the remote secret store
+        secretName: cloudflare-issuer-secret
+        # Name of the deployed secret store in the cluster
+        secretStore: kubernetes
+        # Type is optional but will default to ClusterSecretStore
+        # secretStoreType: ClusterSecretStore
 
-      # Property of the remote secret store that contains the token
-      # Optional, will default to "token"
-      # tokenPropertyName: password
-    domains:
-      - example1.com
-      - example2.com
-    # Add more domains as needed
+        # Property of the remote secret store that contains the token
+        # Optional, will default to "token"
+        # tokenPropertyName: password
+      domains:
+        - example1.com
+        - example2.com
+      # Add more domains as needed
 
   # Issuer with only the required fields
   # - name: letsencrypt-staging
