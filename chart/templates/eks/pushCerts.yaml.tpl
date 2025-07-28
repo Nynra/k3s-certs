@@ -32,7 +32,7 @@ spec:
   updatePolicy: Replace
   refreshInterval: {{ .push.refreshInterval | default $.Values.certs.push.refreshInterval | quote }}
   secretStoreRefs:
-    - name: {{ .push.vaultName | default $.Values.certs.push.vaultName | quote }}
+    - name: {{ .push.secretStore | default $.Values.certs.push.secretStore | quote }}
       kind: SecretStore
   selector:
     secret:
