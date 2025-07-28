@@ -12,17 +12,17 @@ metadata:
     {{- toYaml .commonAnnotations | nindent 4 }}
     {{- end }}
     # Global annotations
-    {{- if global.commonAnnotations }}
-    {{- toYaml . | nindent 4 }}
+    {{- if $.Values.global.commonAnnotations }}
+    {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}
     {{- end }}
   labels:
+    # Global labels
+    {{- if $.Values.global.commonLabels }}
+    {{- toYaml $.Values.global.commonLabels | nindent 4 }}
+    {{- end }}
     # Custom labels
     {{- if .commonLabels }}
     {{- toYaml .commonLabels | nindent 4 }}
-    {{- end }}
-    # Global labels
-    {{- if global.commonLabels }}
-    {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
   provider:
