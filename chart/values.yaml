@@ -1,27 +1,3 @@
-global:
-  # Global node selector
-  # The nodeSelector on Pods tells Kubernetes to schedule Pods on the nodes with matching labels.
-  # For more information, see [Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/).
-  # If a component-specific nodeSelector is also set, it will take precedence.
-  nodeSelector: {}
-
-  # Labels to apply to all resources.
-  # Please note that this does not add labels to the resources created dynamically by the controllers.
-  # For these resources, you have to add the labels in the template in the cert-manager custom resource:
-  # For example, podTemplate/ ingressTemplate in ACMEChallengeSolverHTTP01Ingress
-  # For more information, see the [cert-manager documentation](https://cert-manager.io/docs/reference/api-docs/#acme.cert-manager.io/v1.ACMEChallengeSolverHTTP01Ingress).
-  # For example, secretTemplate in CertificateSpec
-  # For more information, see the [cert-manager documentation](https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.CertificateSpec).
-  commonLabels: {}
-
-  # Annotations to apply to all resources.
-  # Please note that this does not add annotations to the resources created dynamically by the controllers.
-  # For these resources, you have to add the annotations in the template in the cert-manager
-  commonAnnotations: {}
-
-  # The optional priority class to be used for the cert-manager pods.
-  priorityClassName: ""
-
 namespace: cert-manager
 targetRevision: v1.17.2
 
@@ -35,8 +11,6 @@ enableScopedOperator: false
 
 clusterIssuers:
   enabled: false
-  commonLabels: {}
-  commonAnnotations: {}
 
   issuers:
     # Issuer with all fields
@@ -82,8 +56,6 @@ clusterIssuers:
 # in other namespaces or clusters.
 certPushVaults:
   enabled: true
-  commonAnnotations: {}
-  commonLabels: {}
 
   connectToken:
     # Name of the secret in the cluster that contains the connect token.
@@ -108,8 +80,6 @@ certPushVaults:
 # certificates.
 certsPullVault:
   enabled: false
-  commonLabels: {}
-  commonAnnotations: {}
   name: certs-pull-vault
   vaultName: homelab-certs-pull-vault
   connectToken:
@@ -119,8 +89,6 @@ certsPullVault:
 # Enable certs management using the defined issuers
 certs:
   enabled: true
-  commonLabels: {}
-  commonAnnotations: {}
 
   # If enabled, the operator will push the certificates to the vaults defined in certPushVaults
   push: 
@@ -137,14 +105,10 @@ certs:
       dnsNames:
         - example.com
         - "*.example.com"
-      annotations: {}
-      labels: {}
       push: 
         # If enabled, the certificate will be pushed to the vaults defined in certPushVaults
         # Will only work if certs.push.enabled and certPushVaults.enabled are true.
         enabled: true
-        annotations: {}
-        labels: {}
         # Refresh interval for the certificate in the vaults
         # This is the interval at which the certificate will be updated in the vaults
         # If not set, the default refresh interval from certs.push will be used.
