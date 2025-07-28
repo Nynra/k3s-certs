@@ -8,19 +8,11 @@ metadata:
     {{- if .Values.global.commonLabels }}
     {{- toYaml .Values.global.commonLabels | nindent 4 }}
     {{- end }}
-    # Custom labels
-    {{- if .Values.certsPullVault.commonLabels }}
-    {{- toYaml .Values.certsPullVault.commonLabels | nindent 4 }}
-    {{- end }}
   annotations:
     argocd.argoproj.io/sync-wave: "-15"
     # Global annotations
     {{- if .Values.global.commonAnnotations }}
     {{- toYaml .Values.global.commonAnnotations | nindent 4 }}
-    {{- end }}
-    # Custom annotations
-    {{- if .Values.certsPullVault.commonAnnotations }}
-    {{- toYaml .Values.certsPullVault.commonAnnotations | nindent 4 }}
     {{- end }}
 spec:
   provider:

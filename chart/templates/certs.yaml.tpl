@@ -12,18 +12,10 @@ metadata:
     {{- if $.Values.global.commonAnnotations }}
     {{ toYaml $.Values.global.commonAnnotations | indent 4 }}
     {{- end }}
-    # Custom annotations
-    {{- if .annotations }}
-    {{ toYaml .annotations | indent 4 }}
-    {{- end }}
   labels:
     # Global labels
     {{- if $.Values.global.commonLabels }}
     {{ toYaml $.Values.global.commonLabels | indent 4 }}
-    {{- end }}
-    # Custom labels
-    {{- if .labels }}
-    {{ toYaml .labels | indent 4 }}
     {{- end }}
 spec:
   secretName: {{ .name | quote }}

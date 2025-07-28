@@ -11,18 +11,10 @@ metadata:
     {{- if $.Values.global.commonAnnotations }}
     {{ toYaml $.Values.global.commonAnnotations | indent 4 }}
     {{- end }}
-    # Custom annotations
-    {{- if $.Values.clusterIssuers.commonAnnotations }}
-    {{ toYaml $.Values.clusterIssuers.commonAnnotations | indent 4 }}
-    {{- end }}
   labels:
     # Global labels
     {{- if $.Values.global.commonLabels }}
     {{ toYaml $.Values.global.commonLabels | indent 4 }}
-    {{- end }}
-    # Custom labels
-    {{- if $.Values.clusterIssuers.commonLabels }}
-    {{ toYaml $.Values.clusterIssuers.commonLabels | indent 4 }}
     {{- end }}
 spec:
   acme:

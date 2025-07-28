@@ -14,18 +14,10 @@ metadata:
     {{- if $.Values.global.commonAnnotations }}
     {{ toYaml $.Values.global.commonAnnotations | indent 4 }}
     {{- end }}
-    # Custom annotations
-    {{- if .push.annotations }}
-    {{ toYaml .push.annotations | indent 4 }}
-    {{- end }}
   labels:
     # Global labels
     {{- if $.Values.global.commonLabels }}
     {{ toYaml $.Values.global.commonLabels | indent 4 }}
-    {{- end }}
-    # Custom labels
-    {{- if .push.labels }}
-    {{ toYaml .push.labels | indent 4 }}
     {{- end }}
 spec:
   deletionPolicy: Delete
