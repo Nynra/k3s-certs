@@ -29,7 +29,7 @@ spec:
 apiVersion: external-secrets.io/v1alpha1
 kind: PushSecret
 metadata:
-  name: {{ .name | quote }}-push-secret
+  name: "{{ .name }}-push-secret"
   namespace: {{ $.Values.namespace | quote }}
   annotations:
     argocd.argoproj.io/sync-wave: "-7"
