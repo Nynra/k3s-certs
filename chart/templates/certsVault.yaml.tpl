@@ -4,6 +4,7 @@ apiVersion: external-secrets.io/v1
 kind: SecretStore
 metadata:
   name: {{ .name | quote }}
+  namespace: {{ $.Values.namespace | quote }}
   annotations:
     argocd.argoproj.io/sync-wave: "-15"
 spec:
