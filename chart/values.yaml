@@ -77,6 +77,7 @@ certStores:
 
   secretStores:
     - name: certs-push-vault
+      enabled: true
       storeName: kubernetes-certs-vault
 
 # Enable certs management using the defined issuers

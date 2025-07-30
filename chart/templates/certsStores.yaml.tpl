@@ -1,6 +1,6 @@
 {{- if .Values.enableExternalSecrets }}{{- if .Values.certStores.enabled }}
 {{- range .Values.certStores.secretStores }}
-{{- $connectTokenName := .connectToken.name | default $.Values.certStores.connectToken.name | quote }}
+{{- if .enabled | default true }}
 apiVersion: external-secrets.io/v1
 kind: SecretStore
 metadata:
@@ -16,7 +16,8 @@ spec:
       auth:
         secretRef:
           connectTokenSecretRef:
-            name: {{ $connectTokenName }}
+            name: {{ $.Values.certStores.connectToken.name | quote }}
             key: token
+{{- end }}
 {{- end }}
 {{- end }}{{- end }}
