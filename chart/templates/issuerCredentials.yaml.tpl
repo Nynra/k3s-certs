@@ -3,7 +3,6 @@
 {{- if .externalSecret.enabled }}
 {{- $secretStoreType := .externalSecret.secretStoreType | default "ClusterSecretStore" }}
 {{- $secretStore := .externalSecret.secretStore | default $.Values.clusterIssuers.secretStore | quote }}
-{{- $tokenPropertyName :=  }}
 ---
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
