@@ -3,13 +3,12 @@
 {{- if .externalSecret.enabled }}
 {{- $secretStoreType := .externalSecret.secretStoreType | default "ClusterSecretStore" }}
 {{- $secretStore := .externalSecret.secretStore | default $.Values.clusterIssuers.secretStore | quote }}
-{{- $secretName := .externalSecret.secretName | default .name | quote }}
-{{- $tokenPropertyName := .externalSecret.tokenPropertyName | default "password" | quote }}
+{{- $tokenPropertyName :=  }}
 ---
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: "{{ .name }}-token"
+  name: {{ .secretName | quote }}
   namespace: {{ $.Values.namespace.name | quote }}
   annotations:
     argocd.argoproj.io/sync-wave: "-10"
@@ -22,8 +21,8 @@ spec:
   data:
     - secretKey: token
       remoteRef:
-        key: {{ $secretName }}
-        property: {{ $tokenPropertyName }}
+        key: {{ .externalSecret.secretName | quote }}
+        property: {{ .externalSecret.tokenPropertyName | default "password" | quote }}
 {{- end }}
 {{- end }}
 {{- end }}{{- end }}
