@@ -11,7 +11,7 @@ apiVersion: external-secrets.io/v1alpha1
 kind: PushSecret
 metadata:
   name: "{{ $pushSecretName }}-push-secret"
-  namespace: {{ $.Values.namespace | quote }}
+  namespace: {{ $.Values.namespace.name | quote }}
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:

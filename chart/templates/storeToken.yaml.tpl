@@ -5,7 +5,7 @@ apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
   name: {{ .Values.certStores.connectToken.name | quote }}
-  namespace: {{ .Values.namespace | quote }}
+  namespace: {{ .Values.namespace.name | quote }}
   annotations:
     argocd.argoproj.io/sync-wave: "-10"
 spec:

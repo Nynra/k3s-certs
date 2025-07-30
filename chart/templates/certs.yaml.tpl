@@ -5,7 +5,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: {{ .name | quote }}
-  namespace: {{ $.Values.namespace | quote }}
+  namespace: {{ $.Values.namespace.name | quote }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:

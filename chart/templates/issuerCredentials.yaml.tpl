@@ -9,8 +9,8 @@
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: {{ .name }}-token
-  namespace: {{ $.Values.namespace }}
+  name: "{{ .name }}-token"
+  namespace: {{ $.Values.namespace.name | quote }}
   annotations:
     argocd.argoproj.io/sync-wave: "-10"
 spec:
