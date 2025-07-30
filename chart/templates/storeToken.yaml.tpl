@@ -1,4 +1,5 @@
 {{- if .Values.enableExternalSecrets }}{{- if .Values.certStores.enabled }}
+{{- if .Values.certStores.connectToken.enabled }}
 ---
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
@@ -16,6 +17,7 @@ spec:
   data:
     - secretKey: token
       remoteRef:
-        key: {{ .Values.certStores.connectToken.secretName | quote }}
+        key: {{ .Values.certStores.connectToken.name | quote }}
         property: {{ .Values.certStores.connectToken.property | quote }}
+{{- end }}
 {{- end }}{{- end }}

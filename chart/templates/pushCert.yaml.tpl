@@ -3,20 +3,23 @@
 {{- range .Values.certs.certs }}
 {{- if .push.enabled | default false }}
 {{- $remoteName := .push.secretName | default .name }}
+{{- $pushSecretName := .push.secretName | default .name }}
+{{- $refreshInterval := .push.refreshInterval | default $.Values.certs.push.refreshInterval | quote }}
+{{- $secretStore := .push.secretStore | default $.Values.certs.push.secretStore | quote }}
 ---
 apiVersion: external-secrets.io/v1alpha1
 kind: PushSecret
 metadata:
-  name: "{{ .name }}-push-secret"
+  name: "{{ $pushSecretName }}-push-secret"
   namespace: {{ $.Values.namespace | quote }}
   annotations:
     argocd.argoproj.io/sync-wave: "-7"
 spec:
   deletionPolicy: Delete
   updatePolicy: Replace
-  refreshInterval: {{ .push.refreshInterval | default $.Values.certs.push.refreshInterval | quote }}
+  refreshInterval: {{ $refreshInterval }}
   secretStoreRefs:
-    - name: {{ .push.secretStore | default $.Values.certs.push.secretStore | quote }}
+    - name: {{ $secretStore }}
       kind: SecretStore
   selector:
     secret:

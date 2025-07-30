@@ -15,6 +15,11 @@ clusterIssuers:
       # or a previously created secret
       secretName: cloudflare-issuer-secret
       externalSecret:
+        # If set to false the chart will assume a secret with the set secretName
+        # and the connect token in the token property is already present
+        # in the namespace. If set to true the chart will attempt to retreive
+        # the connect token from the secret store defined in the secretStore
+        # property.
         enabled: true
         # Name in the remote secret store
         secretName: cloudflare-issuer-secret
@@ -55,8 +60,8 @@ certStores:
   # values for the connectToken block in the secretStores
   connectToken:
     # If enabled the chart will attemt to retreive a connect token from an existing secret
-    # store. If disabled the chart will assume a secret is already present in the
-    # namespace
+    # store. If disabled the chart will assume a secret with the same name and
+    # property is already present in the namespace.
     enabled: true
 
     # The secret store to use. Make sure the operator has access to the nanespace
