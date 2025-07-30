@@ -11,13 +11,13 @@ metadata:
 spec:
   secretStoreRef:
     kind: {{ .Values.certStores.connectToken.secretStoreType | quote }}
-    name: {{ .Values.certStores.connectToken.secretStore | quote }}
+    name: {{ .Values.certStores.connectToken.secretStore | quote }} 
   target:
     creationPolicy: Owner
-  data:
+  data: 
     - secretKey: token
       remoteRef:
-        key: {{ .Values.certStores.connectToken.name | quote }}
-        property: {{ .Values.certStores.connectToken.property | quote }}
+        key: {{ .Values.certStores.connectToken.remoteName | quote }}
+        property: {{ .Values.certStores.connectToken.remoteProperty | quote }}
 {{- end }}
 {{- end }}{{- end }}

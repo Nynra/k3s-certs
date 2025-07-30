@@ -64,6 +64,9 @@ certStores:
     # property is already present in the namespace.
     enabled: true
 
+    # Name of the secret that will be created
+    name: "certs-push-vault-token"
+
     # The secret store to use. Make sure the operator has access to the nanespace
     # and is able to reconsile secrets in this namespace
     secretStore: "main-vault"
@@ -72,13 +75,14 @@ certStores:
     # Name of the secret in the secret storage and the property to use
     # to retreive the connect token. The token should have read and write
     # access to the vaults in the secret storage
-    name: "onepassword-connect-token"
-    property: "connect_token"
+    remoteName: "onepassword-connect-token"
+    remoteProperty: "connect_token"
 
   secretStores:
     - name: certs-push-vault
-      enabled: true
       storeName: kubernetes-certs-vault
+      # Optional, defaults to true
+      enabled: true
 
 # Enable certs management using the defined issuers
 certs:
