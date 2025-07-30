@@ -11,7 +11,7 @@ spec:
     onepassword:
       connectHost: http://onepassword-connect:8080
       vaults:
-        {{ .vaultName | quote }}: 1
+        {{ .storeName | quote }}: 1
       auth:
         secretRef:
           connectTokenSecretRef:

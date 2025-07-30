@@ -49,23 +49,30 @@ clusterIssuers:
 # permissions to the vaults.
 # This is useful for pushing certificates to a vault like 1Password for use
 # in other namespaces or clusters.
-certSecretStores:
+certStores:
   enabled: true
+  # Default values for the connectToken block. These are used as fallback
+  # values for the connectToken block in the secretStores
   connectToken:
-    # Name of the secret in the cluster that contains the connect token.
-    # This is used to authenticate with the vault. Can be set for individual vaults
-    # or globally for all vaults.
-    name: onepassword-connect-token
-    namespace: external-secrets
+    # If enabled the chart will attemt to retreive a connect token from an existing secret
+    # store. If disabled the chart will assume a secret is already present in the
+    # namespace
+    enabled: true
+
+    # The secret store to use. Make sure the operator has access to the nanespace
+    # and is able to reconsile secrets in this namespace
+    secretStore: "main-vault"
+    secretStoreType: "ClusterSecretStore"
+
+    # Name of the secret in the secret storage and the property to use
+    # to retreive the connect token. The token should have read and write
+    # access to the vaults in the secret storage
+    name: "onepassword-connect-token"
+    property: "connect_token"
 
   secretStores:
     - name: certs-push-vault
-      vaultName: kubernetes-certs-vault
-      # If the connect token is not set, the default connect token from certSecretStores.connectToken will be used.
-      # connectToken:
-      #   name: onepassword-connect-token
-      #   namespace: external-secrets
-
+      storeName: kubernetes-certs-vault
 
 # Enable certs management using the defined issuers
 certs:
@@ -87,8 +94,8 @@ certs:
         - example.com
         - "*.example.com"
       push: 
-        # If enabled, the certificate will be pushed to the vaults defined in certPushVaults
-        # Will only work if certs.push.enabled and certPushVaults.enabled are true.
+        # If enabled, the certificate will be pushed to the vaults defined in certVaults
+        # Will only work if certs.push.enabled and certVaults.enabled are true.
         enabled: true
         # Refresh interval for the certificate in the vaults
         # This is the interval at which the certificate will be updated in the vaults
@@ -100,7 +107,7 @@ certs:
 
         # Name of the vault to push the certificate to.
         # If not set, the default vault from certs.push will be used.
-        # This vault must be defined in certPushVaults.
+        # This vault must be defined in certVaults.
         # secretStore: certs-push-vault
 
 # Helm values passed to the cert-manager chart.
