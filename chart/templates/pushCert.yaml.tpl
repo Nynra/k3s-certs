@@ -13,7 +13,7 @@ metadata:
   name: "{{ $pushSecretName }}-push-secret"
   namespace: {{ $.Values.namespace | quote }}
   annotations:
-    argocd.argoproj.io/sync-wave: "-7"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   deletionPolicy: Delete
   updatePolicy: Replace

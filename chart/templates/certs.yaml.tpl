@@ -7,7 +7,7 @@ metadata:
   name: {{ .name | quote }}
   namespace: {{ $.Values.namespace | quote }}
   annotations:
-    argocd.argoproj.io/sync-wave: "-8"
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   secretName: {{ .name | quote }}
   commonName: {{ .commonName | quote }}

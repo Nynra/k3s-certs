@@ -1,8 +1,28 @@
-namespace: cert-manager
-targetRevision: v1.17.2
+global:
+  # Global labels to add to all resources in this chart.
+  # These labels and annotations will also be added to cert-manager resources
+  # as the use the same global values.
+  commonAnnotations: {}
+  commonLabels: {}
+
+# Deploy the resources in this chart. If set to false only the dependancies
+# will be deployed.
+enabled: true
 
 # Enable the external-secrets operator needed to interact with external-secrets CRDs.
 enableExternalSecrets: true
+
+namespace:
+  enabled: true
+  name: cert-manager
+
+  # If the namespace should be created using helm hooks before the chart is deployed.
+  # This is useful if the namespace needs to be created before the chart is deployed
+  hooked: false
+
+  # Annotations and labels to add to the namespace.
+  commonAnnotations: {}
+  commonLabels: {}
 
 clusterIssuers:
   enabled: false

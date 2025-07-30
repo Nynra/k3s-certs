@@ -6,7 +6,7 @@ kind: SecretStore
 metadata:
   name: {{ .name | quote }}
   annotations:
-    argocd.argoproj.io/sync-wave: "-15"
+    argocd.argoproj.io/sync-wave: "-9"
 spec:
   provider:
     onepassword:
