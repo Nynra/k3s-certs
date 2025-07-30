@@ -5,6 +5,13 @@ global:
   commonAnnotations: {}
   commonLabels: {}
 
+  # Global node selector
+  # The nodeSelector on Pods tells Kubernetes to schedule Pods on the nodes with matching labels.
+  nodeSelector: {}
+
+  # The optional priority class to be used for the cert-manager pods.
+  priorityClassName: ""
+
 # Deploy the resources in this chart. If set to false only the dependancies
 # will be deployed.
 enabled: true
