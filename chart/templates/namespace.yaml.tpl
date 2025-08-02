@@ -1,4 +1,4 @@
-{{- if .Values.enabled }}{{- if .Values.namespace.enabled }}
+{{- if .Values.namespace.enabled }}
 kind: Namespace
 apiVersion: v1
 metadata:
@@ -31,5 +31,4 @@ metadata:
     {{- if .Values.namespace.commonAnnotations }}
     {{- toYaml .Values.namespace.commonAnnotations | nindent 4 }}
     {{- end }}
-{{- end }}
 {{- end }}
