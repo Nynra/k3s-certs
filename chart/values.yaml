@@ -27,10 +27,6 @@ namespace:
   # This is useful if the namespace needs to be created before the chart is deployed
   hooked: false
 
-  # Annotations and labels to add to the namespace.
-  commonAnnotations: {}
-  commonLabels: {}
-
 clusterIssuers:
   enabled: false
 

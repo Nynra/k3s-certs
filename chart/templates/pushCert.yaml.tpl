@@ -11,9 +11,18 @@ apiVersion: external-secrets.io/v1alpha1
 kind: PushSecret
 metadata:
   name: "{{ $pushSecretName }}-push-secret"
-  namespace: {{ $.Values.namespace.name | quote }}
+  namespace: {{ $.Release.Namespace | quote }}
   annotations:
     argocd.argoproj.io/sync-wave: "2"
+    # Global annotations
+    {{- if .Values.global.commonAnnotations }}
+      {{- toYaml .Values.global.commonAnnotations | nindent 4 }}
+    {{- end }}
+  {{- if .Values.global.commonLabels }}  
+  labels:
+    # Global labels
+    {{- toYaml .Values.global.commonLabels | nindent 4 }}
+  {{- end }}
 spec:
   deletionPolicy: Delete
   updatePolicy: Replace
