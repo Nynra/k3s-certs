@@ -3,12 +3,12 @@ global:
   # These labels and annotations will also be added to cert-manager resources
   # as the use the same global values.
   common: 
-    stack: {{ .Chart.Name | quote }}
+    stack: "{{ .Chart.Name | quote }}"
     tenant: "testing"
 
   commonLabels:
-    tenancy.io/stack: {{ .Values.global.common.stack | quote }}
-    tenancy.io/tenant: {{ .Values.global.common.tenant | quote }}
+    tenancy.io/stack: "{{ .Values.global.common.stack | quote }}"
+    tenancy.io/tenant: "{{ .Values.global.common.tenant | quote }}"
 
   commonAnnotations: {}
 
