@@ -2,8 +2,15 @@ global:
   # Global labels to add to all resources in this chart.
   # These labels and annotations will also be added to cert-manager resources
   # as the use the same global values.
+  common: 
+    stack: {{ .Chart.Name | quote }}
+    tenant: "testing"
+
+  commonLabels:
+    tenancy.io/stack: {{ .Values.global.common.stack | quote }}
+    tenancy.io/tenant: {{ .Values.global.common.tenant | quote }}
+
   commonAnnotations: {}
-  commonLabels: {}
 
   # Global node selector
   # The nodeSelector on Pods tells Kubernetes to schedule Pods on the nodes with matching labels.
@@ -16,16 +23,14 @@ global:
 # will be deployed.
 enabled: true
 
-# Enable the external-secrets operator needed to interact with external-secrets CRDs.
-enableExternalSecrets: true
-
 namespace:
-  enabled: true
-  name: cert-manager
-
   # If the namespace should be created using helm hooks before the chart is deployed.
   # This is useful if the namespace needs to be created before the chart is deployed
+  enabled: true
   hooked: false
+
+networkPolicies:
+  enabled: false
 
 clusterIssuers:
   enabled: false
@@ -59,18 +64,18 @@ clusterIssuers:
         - example2.com
       # Add more domains as needed
 
-  # Issuer with only the required fields
-  # - name: letsencrypt-staging
-  #   server: https://acme-staging-v02.api.letsencrypt.org/directory
-  #   secretName: cloudflare-issuer-secret
-  #   externalSecret:
-  #     enabled: true
-  #     secretName: cloudflare-issuer-secret
-  #     secretStore: kubernetes
-  #   # Or with externalSecret.enabled: false an existing secret is used
-  #   domains:
-  #     - example1.com
-  #     - example2.com
+    # Issuer with only the required fields
+    # - name: letsencrypt-staging
+    #   server: https://acme-staging-v02.api.letsencrypt.org/directory
+    #   secretName: cloudflare-issuer-secret
+    #   externalSecret:
+    #     enabled: true
+    #     secretName: cloudflare-issuer-secret
+    #     secretStore: kubernetes
+    #   # Or with externalSecret.enabled: false an existing secret is used
+    #   domains:
+    #     - example1.com
+    #     - example2.com
 
 # Scoped external secret vaults to push certificates to. To use these vaults
 # external-secrets must be configured to use the vaults and have read/write
