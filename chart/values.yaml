@@ -80,33 +80,12 @@ clusterIssuers:
 # in other namespaces or clusters.
 certStores:
   enabled: true
-  # Default values for the connectToken block. These are used as fallback
-  # values for the connectToken block in the secretStores
-  connectToken:
-    # If enabled the chart will attemt to retreive a connect token from an existing secret
-    # store. If disabled the chart will assume a secret with the same name and
-    # property is already present in the namespace.
-    enabled: true
-
-    # Name of the secret that will be created
-    name: "certs-push-vault-token"
-
-    # The secret store to use. Make sure the operator has access to the nanespace
-    # and is able to reconsile secrets in this namespace
-    secretStore: "main-vault"
-    secretStoreType: "ClusterSecretStore"
-
-    # Name of the secret in the secret storage and the property to use
-    # to retreive the connect token. The token should have read and write
-    # access to the vaults in the secret storage
-    remoteName: "onepassword-connect-token"
-    remoteProperty: "connect_token"
-
-  secretStores:
+  stores:
     - name: certs-push-vault
-      storeName: kubernetes-certs-vault
-      # Optional, defaults to true
       enabled: true
+      vault: kubernetes-certs-vault
+      accessToken: certs-push-vault-token
+      # accessTokenField: token
 
 # Enable certs management using the defined issuers
 certs:
@@ -157,3 +136,8 @@ cert-manager:
     nameservers:
       - 1.1.1.1
       - 9.9.9.9
+  
+  prometheus:
+    enabled: false
+    podmonitor:
+      enabled: false

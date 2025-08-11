@@ -1,6 +1,6 @@
 {{- if .Values.enableExternalSecrets }}{{- if .Values.certStores.enabled }}
-{{- range .Values.certStores.secretStores }}
-{{- if .enabled | default true }}
+{{- range .Values.certStores.stores }}
+{{- if .enabled }}
 apiVersion: external-secrets.io/v1
 kind: SecretStore
 metadata:
@@ -18,15 +18,16 @@ metadata:
   {{- end }}
 spec:
   provider:
-    onepassword:
-      connectHost: http://onepassword-connect:8080
-      vaults:
-        {{ .storeName | quote }}: 1
+    onepasswordSDK:
+      vault: {{ .vault | quote }}
       auth:
-        secretRef:
-          connectTokenSecretRef:
-            name: {{ $.Values.certStores.connectToken.name | quote }}
-            key: token
+        serviceAccountSecretRef:
+          name: {{ .accessToken | quote }}
+          {{- if .accessTokenField }}
+          key: {{ .accessTokenField | quote }}
+          {{- else }}
+          key: token
+          {{- end }}
 {{- end }}
 {{- end }}
 {{- end }}{{- end }}
