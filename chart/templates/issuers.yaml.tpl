@@ -1,3 +1,4 @@
+{{- if .Values.enabled }}
 {{- if .Values.issuers.enabled }}
 {{- range .Values.issuers.issuers }}
 ---
@@ -72,5 +73,6 @@ spec:
           {{- range .domains }}
           - "{{ . }}"
           {{- end }} 
+{{- end }}
 {{- end }}
 {{- end }}

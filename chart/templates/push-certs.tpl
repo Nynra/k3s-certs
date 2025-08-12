@@ -1,4 +1,4 @@
-
+{{- if .Values.enabled }}
 {{- if .Values.enableExternalSecrets }}{{- if .Values.certs.push.enabled }}
 {{- range .Values.certs.certs }}
 {{- if .push.enabled | default false }}
@@ -47,3 +47,4 @@ spec:
 {{- end }}
 {{- end }}
 {{- end }}{{- end }}
+{{- end }}

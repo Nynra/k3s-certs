@@ -1,3 +1,4 @@
+{{- if .Values.enabled }}
 {{- if .Values.certs.enabled }}
 {{- range .Values.certs.certs }}
 ---
@@ -27,5 +28,6 @@ spec:
   issuerRef:
     name: {{ .clusterIssuer | quote }}
     kind: ClusterIssuer
+{{- end }}
 {{- end }}
 {{- end }}

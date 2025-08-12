@@ -1,6 +1,7 @@
-{{- if .Values.enabled }}{{- if .Values.issuers.enabled }}
+{{- if .Values.enabled }}
+{{- if .Values.issuers.enabled }}
 {{- range .Values.issuers.issuers }}
-{{- if .externalSecret.enabled }}
+{{- if .enabled }}{{- if .externalSecret.enabled }}
 {{- $secretStoreType := .externalSecret.secretStoreType | default "ClusterSecretStore" }}
 {{- $secretStore := .externalSecret.secretStore | quote }}
 ---
@@ -31,13 +32,13 @@ spec:
       remoteRef:
         key: {{ .externalSecret.secretName | quote }}
         property: {{ .externalSecret.secretField | default "password" | quote }}
-{{- end }}
-{{- end }}
 {{- end }}{{- end }}
+{{- end }}
+{{- end }}
 
-{{- if .Values.enabled }}{{- if .Values.clusterIssuers.enabled }}
+{{- if .Values.clusterIssuers.enabled }}
 {{- range .Values.clusterIssuers.issuers }}
-{{- if .externalSecret.enabled }}
+{{- if .enabled }}{{- if .externalSecret.enabled }}
 {{- $secretStoreType := .externalSecret.secretStoreType | default "ClusterSecretStore" }}
 {{- $secretStore := .externalSecret.secretStore | quote }}
 ---
@@ -68,11 +69,11 @@ spec:
       remoteRef:
         key: {{ .externalSecret.secretName | quote }}
         property: {{ .externalSecret.secretField | default "password" | quote }}
-{{- end }}
-{{- end }}
 {{- end }}{{- end }}
+{{- end }}
+{{- end }}
 
-{{- if .Values.enabled -}}{{- if .Values.certStores.enabled }}
+{{- if .Values.certStores.enabled }}
 {{- range .Values.certStores.stores }}
 {{- if .enabled }}{{- if .externalSecret.enabled }}
 {{- $secretStoreType := .externalSecret.secretStoreType | default "ClusterSecretStore" }}
@@ -107,4 +108,5 @@ spec:
         property: {{ .externalSecret.secretField | quote }}
 {{- end }}{{- end }}
 {{- end }}
-{{- end }}{{- end }}
+{{- end }}
+{{- end }}
