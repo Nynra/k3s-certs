@@ -22,9 +22,9 @@ spec:
       vault: {{ .vault | quote }}
       auth:
         serviceAccountSecretRef:
-          name: {{ .accessToken | quote }}
-          {{- if .accessTokenField }}
-          key: {{ .accessTokenField | quote }}
+          name: {{ .secretName | quote }}
+          {{- if .secretField }}
+          key: {{ .secretField | quote }}
           {{- else }}
           key: token
           {{- end }}

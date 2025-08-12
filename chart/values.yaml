@@ -21,23 +21,29 @@ enabled: true
 
 namespace:
   # If the namespace should be created using helm hooks before the chart is deployed.
-  # This is useful if the namespace needs to be created before the chart is deployed
-  enabled: true
-  hooked: false
+  hooked: true
 
 networkPolicies:
-  enabled: false
+  enabled: true
 
-clusterIssuers:
-  enabled: false
+issuers:
+  enabled: true
 
   issuers:
     # Issuer with all fields
     - name: letsencrypt-staging-all-fields
+      enabled: true
       server: https://acme-staging-v02.api.letsencrypt.org/directory
       # Only existing secrets are supported, either an external secret
       # or a previously created secret
       secretName: cloudflare-issuer-secret
+      domains:
+        - example1.com
+        - example2.com
+        # Add more domains as needed
+      # The secret can either be pulled from an external secret store or reflected
+      # from another namespace. Only one can be used at a time.
+      # If both are set the reflected secret will be used.
       externalSecret:
         # If set to false the chart will assume a secret with the set secretName
         # and the connect token in the token property is already present
@@ -53,25 +59,48 @@ clusterIssuers:
         # secretStoreType: ClusterSecretStore
 
         # Property of the remote secret store that contains the token
-        # Optional, will default to "token"
-        # tokenPropertyName: password
+        # Optional, will default to "password"
+        # secretField: password
+      reflectedSecret:
+        # If set to true the chart will create a reflected secret in the namespace
+        # with the name of the secretName property.
+        enabled: true
+        originNamespace: default
+        originSecretName: cloudflare-issuer-secret
+
+clusterIssuers:
+  enabled: true
+
+  issuers:
+    # Issuer with all fields
+    - name: letsencrypt-staging-all-fields
+      enabled: true
+      server: https://acme-staging-v02.api.letsencrypt.org/directory
+      # Only existing secrets are supported, either an external secret
+      # or a previously created secret
+      secretName: cloudflare-issuer-secret
       domains:
         - example1.com
         - example2.com
-      # Add more domains as needed
+          # Add more domains as needed
+      externalSecret:
+        enabled: true
+        # Name in the remote secret store
+        secretName: cloudflare-cluster-issuer-secret
+        # Name of the deployed secret store in the cluster
+        secretStore: kubernetes
+        # Type is optional but will default to ClusterSecretStore
+        # secretStoreType: ClusterSecretStore
 
-    # Issuer with only the required fields
-    # - name: letsencrypt-staging
-    #   server: https://acme-staging-v02.api.letsencrypt.org/directory
-    #   secretName: cloudflare-issuer-secret
-    #   externalSecret:
-    #     enabled: true
-    #     secretName: cloudflare-issuer-secret
-    #     secretStore: kubernetes
-    #   # Or with externalSecret.enabled: false an existing secret is used
-    #   domains:
-    #     - example1.com
-    #     - example2.com
+        # Property of the remote secret store that contains the token
+        # Optional, will default to "password"
+        # secretField: password
+      reflectedSecret:
+        # If set to true the chart will create a reflected secret in the namespace
+        # with the name of the secretName property.
+        enabled: true
+        originNamespace: default
+        originSecretName: cloudflare-issuer-secret
 
 # Scoped external secret vaults to push certificates to. To use these vaults
 # external-secrets must be configured to use the vaults and have read/write
@@ -84,8 +113,23 @@ certStores:
     - name: certs-push-vault
       enabled: true
       vault: kubernetes-certs-vault
-      accessToken: certs-push-vault-token
-      # accessTokenField: token
+      # Make sure the token has read and write permissions to the vault
+      # otherwise issues will arise during creation/deletion
+      secretName: certs-push-token
+      externalSecret:
+        enabled: true
+        secretName: certVaultToken
+        storeName: kubernetes-certs-vault
+        # Type is optional but will default to ClusterSecretStore
+        # storeType: ClusterSecretStore
+        # Optional, the field in the secret that contains the access token
+        # secretField: "password"
+      reflectedSecret:
+        # If set to true the chart will create a reflected secret in the namespace
+        # with the name of the secretName property.
+        enabled: true
+        originNamespace: default
+        originSecretName: certs-push-vault-token
 
 # Enable certs management using the defined issuers
 certs:
@@ -94,7 +138,7 @@ certs:
   # If enabled, the operator will push the certificates to the vaults defined in certPushVaults
   push: 
     # If enabled, the certificates will be pushed to the vaults defined in certPushVaults
-    enabled: false
+    enabled: true
     # Default settings for certificates pushed to vaults
     refreshInterval: 1h
     secretStore: kubernetes-certs-vault

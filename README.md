@@ -11,4 +11,4 @@ Helm chart for managing certificates lifecycle in a k3s cluster. The chart can e
 
 ## Gotchas
 
-The chart does not include the secret-store needed to retreive the issuer credentials. The chart assumes this vault is already created and configured, if not the user should use a pre-existing secret in the deployment namespace.
+The chart does not include the secret-store needed to retreive the issuer credentials. The chart assumes this vault is already created and configured, if not the user should use a pre-existing secret in the deployment namespace (can be reflected from another namespace).
