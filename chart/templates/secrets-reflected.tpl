@@ -17,9 +17,6 @@ metadata:
   labels:
     {{- toYaml $.Values.global.commonLabels | nindent 4 }}
   {{- end }}
-data:
-  # This is a placeholder. The actual data will be populated by the reflector.
-  placeholder: "placeholder-value"
 {{- end }}
 {{- end }}
 {{- end }}
@@ -42,9 +39,6 @@ metadata:
   labels:
     {{- toYaml $.Values.global.commonLabels | nindent 4 }}
   {{- end }}
-data:
-  # This is a placeholder. The actual data will be populated by the reflector.
-  placeholder: "placeholder-value"
 {{- end }}
 {{- end }}
 {{- end }}
@@ -67,9 +61,6 @@ metadata:
   labels:
     {{- toYaml $.Values.global.commonLabels | nindent 4 }}
   {{- end }}
-data:
-  # This is a placeholder. The actual data will be populated by the reflector.
-  placeholder: "placeholder-value"
 {{- end }}
 {{- end }}
 {{- end }}
