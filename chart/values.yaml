@@ -1,3 +1,18 @@
+# Values for the k3s-certs chart.
+#
+# By default this chart will install cert-manager and the namespace 
+# 
+# The following is only applicable for pull reflected secrets. For push 
+# reflected secret disable the reflectedSecret and externalSecret of the 
+# resource and only set the secretName. The chart will assume the secret
+# is pushed before the resource is enabled (responsibility of the user).
+#
+# If reflected secrets are used make sure first deploy the resource 
+# in a disabled state (enabled: false) but the reflectedSecret.enabled: true
+# this will create the reflected secret manifest in the namespace and give
+# the cluster reflector instance some time to reconsile the secret.
+# After the secret is reflected you can enable the resource and use the secret.
+
 global:
   # Global labels to add to all resources in this chart.
   # These labels and annotations will also be added to cert-manager resources
@@ -19,6 +34,7 @@ global:
 # will be deployed.
 enabled: true
 
+# The namespace will always be created, also if the global .enabled is set to false.
 namespace:
   # If the namespace should be created using helm hooks before the chart is deployed.
   hooked: true
@@ -34,13 +50,13 @@ issuers:
     - name: letsencrypt-staging-all-fields
       enabled: false
       server: https://acme-staging-v02.api.letsencrypt.org/directory
-      # Only existing secrets are supported, either an external secret
-      # or a previously created secret
-      secretName: cloudflare-issuer-secret
       domains:
         - example1.com
         - example2.com
         # Add more domains as needed
+      # Only existing secrets are supported, either an external secret
+      # or a previously created secret
+      secretName: cloudflare-issuer-secret
       # The secret can either be pulled from an external secret store or reflected
       # from another namespace. Only one can be used at a time.
       # If both are set the reflected secret will be used.
@@ -76,13 +92,13 @@ clusterIssuers:
     - name: letsencrypt-staging-all-fields
       enabled: false
       server: https://acme-staging-v02.api.letsencrypt.org/directory
-      # Only existing secrets are supported, either an external secret
-      # or a previously created secret
-      secretName: cloudflare-issuer-secret
       domains:
         - example1.com
         - example2.com
           # Add more domains as needed
+      # Only existing secrets are supported, either an external secret
+      # or a previously created secret
+      secretName: cloudflare-issuer-secret
       externalSecret:
         enabled: false
         # Name in the remote secret store
