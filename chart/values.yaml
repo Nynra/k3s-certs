@@ -37,7 +37,7 @@ enabled: true
 # The namespace will always be created, also if the global .enabled is set to false.
 namespace:
   # If the namespace should be created using helm hooks before the chart is deployed.
-  hooked: true
+  hooked: false
 
 networkPolicies:
   enabled: false
