@@ -1,6 +1,7 @@
 {{- if .Values.enabled }}
 {{- if .Values.issuers.enabled }}
 {{- range .Values.issuers.issuers }}
+{{- if .enabled }}
 ---
 apiVersion: cert-manager.io/v1
 kind: Issuer
@@ -37,9 +38,11 @@ spec:
           {{- end }} 
 {{- end }}
 {{- end }}
+{{- end }}
 
 {{- if .Values.clusterIssuers.enabled }}
 {{- range .Values.clusterIssuers.issuers }}
+{{- if .enabled }}
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -73,6 +76,7 @@ spec:
           {{- range .domains }}
           - "{{ . }}"
           {{- end }} 
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}

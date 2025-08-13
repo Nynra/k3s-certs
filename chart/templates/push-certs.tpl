@@ -1,6 +1,7 @@
 {{- if .Values.enabled }}
 {{- if .Values.certs.push.enabled }}
 {{- range .Values.certs.certs }}
+{{- if .enabled }}
 {{- if .push.enabled | default $.Values.certs.push.enabled }}
 {{- $secretName := .name }}
 {{- $remoteName := .push.secretName | default .name }}
@@ -45,6 +46,7 @@ spec:
         remoteRef:
             remoteKey: {{ $remoteName }}
             property: tls_key
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
