@@ -5,7 +5,7 @@ metadata:
   name: "{{ .Chart.Name }}-networkpolicy"
   namespace: {{ .Release.Namespace | quote }}
   annotations:
-    argocd.argoproj.io/sync-wave: "-10"
+    argocd.argoproj.io/sync-wave: "0"
     # Global annotations
     {{- if $.Values.global.commonAnnotations }}
       {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}

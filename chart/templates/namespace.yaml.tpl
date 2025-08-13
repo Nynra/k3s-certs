@@ -9,7 +9,7 @@ metadata:
   {{- end }}
   annotations:
     # Argocd wave
-    argocd.argoproj.io/sync-wave: "-11"
+    argocd.argoproj.io/sync-wave: "-1"
     # Helm hook annotations to prevent deletion
     {{- if .Values.namespace.hooked }}
     helm.sh/hook: pre-install,post-delete

@@ -8,7 +8,7 @@ namespace: {{ $.Release.Namespace | quote }}
 metadata:
   name: {{ .name | quote }}
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "2"
     # Global annotations
     {{- if $.Values.global.commonAnnotations }}
       {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}
@@ -46,7 +46,7 @@ kind: ClusterIssuer
 metadata:
   name: {{ .name | quote }}
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "2"
     # Global annotations
     {{- if $.Values.global.commonAnnotations }}
       {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}
