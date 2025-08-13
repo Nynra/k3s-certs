@@ -8,7 +8,7 @@ kind: Secret
 metadata:
   name: {{ .secretName | quote }}
   annotations:
-    reflector.v1.k8s.emberstack.com/reflects: "{{ .reflectedSecret.originNamespace | quote }}/{{ .reflectedSecret.originSecretName | quote }}"
+    reflector.v1.k8s.emberstack.com/reflects: "{{ .reflectedSecret.originNamespace }}/{{ .reflectedSecret.originSecretName }}"
     argo-cd.argoproj.io/sync-wave: "2"
     {{- if $.Values.global.commonAnnotations }}
       {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}
@@ -30,7 +30,7 @@ kind: Secret
 metadata:
   name: {{ .secretName | quote }}
   annotations:
-    reflector.v1.k8s.emberstack.com/reflects: "{{ .reflectedSecret.originNamespace | quote }}/{{ .reflectedSecret.originSecretName | quote }}"
+    reflector.v1.k8s.emberstack.com/reflects: "{{ .reflectedSecret.originNamespace }}/{{ .reflectedSecret.originSecretName }}"
     argo-cd.argoproj.io/sync-wave: "2"
     {{- if $.Values.global.commonAnnotations }}
       {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}
@@ -52,7 +52,7 @@ kind: Secret
 metadata:
   name: {{ .secretName | quote }}
   annotations:
-    reflector.v1.k8s.emberstack.com/reflects: "{{ .reflectedSecret.originNamespace | quote }}/{{ .reflectedSecret.originSecretName | quote }}"
+    reflector.v1.k8s.emberstack.com/reflects: "{{ .reflectedSecret.originNamespace }}/{{ .reflectedSecret.originSecretName }}"
     argo-cd.argoproj.io/sync-wave: "2"
     {{- if $.Values.global.commonAnnotations }}
       {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}
