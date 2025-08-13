@@ -1,6 +1,7 @@
 {{- if .Values.enabled }}
 {{- if .Values.certs.enabled }}
 {{- range .Values.certs.certs }}
+{{- if .enabled }}
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -26,8 +27,9 @@ spec:
     - "{{ . }}"
     {{- end }}
   issuerRef:
-    name: {{ .clusterIssuer | quote }}
-    kind: ClusterIssuer
+    name: {{ .issuer | quote }}
+    kind: issuer
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}

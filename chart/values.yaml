@@ -145,8 +145,10 @@ certs:
 
   certs:
     - name: example-com-tls
+      enabled: true
       commonName: example.com
-      clusterIssuer: letsencrypt-staging
+      issuer: letsencrypt-staging
+      # Certificate for the root domain and wildcard
       dnsNames:
         - example.com
         - "*.example.com"
