@@ -1,16 +1,17 @@
 {{- if .Values.enabled }}
-{{- if .Values.enableExternalSecrets }}{{- if .Values.certs.push.enabled }}
+{{- if .Values.certs.push.enabled }}
 {{- range .Values.certs.certs }}
-{{- if .push.enabled | default false }}
+{{- if .push.enabled | default $.Values.certs.push.enabled }}
+{{- $secretName := .name }}
 {{- $remoteName := .push.secretName | default .name }}
-{{- $pushSecretName := .push.secretName | default .name }}
-{{- $refreshInterval := .push.refreshInterval | default $.Values.certs.push.refreshInterval | quote }}
-{{- $secretStore := .push.secretStore | default $.Values.certs.push.secretStore | quote }}
+{{- $refreshInterval := .push.refreshInterval | default $.Values.certs.push.refreshInterval }}
+{{- range .push.secretStores }}
+{{- $secretStore := . }}
 ---
 apiVersion: external-secrets.io/v1alpha1
 kind: PushSecret
 metadata:
-  name: "{{ $pushSecretName }}-push-secret"
+  name: "{{ $secretName }}-to-{{ $secretStore }}-push-secret"
   namespace: {{ $.Release.Namespace | quote }}
   annotations:
     argocd.argoproj.io/sync-wave: "2"
@@ -26,13 +27,13 @@ metadata:
 spec:
   deletionPolicy: Delete
   updatePolicy: Replace
-  refreshInterval: {{ $refreshInterval }}
+  refreshInterval: {{ $refreshInterval | quote }}
   secretStoreRefs:
-    - name: {{ $secretStore }}
+    - name: {{ $secretStore | quote }}
       kind: SecretStore
   selector:
     secret:
-      name: {{ .name | quote }}
+      name: {{ $secretName | quote }}
   data:
     - match:
         secretKey: tls.crt 
@@ -46,5 +47,6 @@ spec:
             property: tls_key
 {{- end }}
 {{- end }}
-{{- end }}{{- end }}
+{{- end }}
+{{- end }}
 {{- end }}

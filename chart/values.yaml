@@ -17,11 +17,11 @@ global:
 
 # Deploy the resources in this chart. If set to false only the dependancies
 # will be deployed.
-enabled: false
+enabled: true
 
 namespace:
   # If the namespace should be created using helm hooks before the chart is deployed.
-  hooked: false
+  hooked: true
 
 networkPolicies:
   enabled: false
@@ -32,7 +32,7 @@ issuers:
   issuers:
     # Issuer with all fields
     - name: letsencrypt-staging-all-fields
-      enabled: true
+      enabled: false
       server: https://acme-staging-v02.api.letsencrypt.org/directory
       # Only existing secrets are supported, either an external secret
       # or a previously created secret
@@ -50,7 +50,7 @@ issuers:
         # in the namespace. If set to true the chart will attempt to retreive
         # the connect token from the secret store defined in the secretStore
         # property.
-        enabled: true
+        enabled: false
         # Name in the remote secret store
         secretName: cloudflare-issuer-secret
         # Name of the deployed secret store in the cluster
@@ -74,7 +74,7 @@ clusterIssuers:
   issuers:
     # Issuer with all fields
     - name: letsencrypt-staging-all-fields
-      enabled: true
+      enabled: false
       server: https://acme-staging-v02.api.letsencrypt.org/directory
       # Only existing secrets are supported, either an external secret
       # or a previously created secret
@@ -84,7 +84,7 @@ clusterIssuers:
         - example2.com
           # Add more domains as needed
       externalSecret:
-        enabled: true
+        enabled: false
         # Name in the remote secret store
         secretName: cloudflare-cluster-issuer-secret
         # Name of the deployed secret store in the cluster
@@ -111,13 +111,13 @@ certStores:
   enabled: false
   stores:
     - name: certs-push-vault
-      enabled: true
+      enabled: false
       vault: kubernetes-certs-vault
       # Make sure the token has read and write permissions to the vault
       # otherwise issues will arise during creation/deletion
       secretName: certs-push-token
       externalSecret:
-        enabled: true
+        enabled: false
         secretName: certVaultToken
         storeName: kubernetes-certs-vault
         # Type is optional but will default to ClusterSecretStore
@@ -138,14 +138,13 @@ certs:
   # If enabled, the operator will push the certificates to the vaults defined in certPushVaults
   push: 
     # If enabled, the certificates will be pushed to the vaults defined in certPushVaults
-    enabled: true
+    enabled: false
     # Default settings for certificates pushed to vaults
     refreshInterval: 1h
-    secretStore: kubernetes-certs-vault
 
   certs:
     - name: example-com-tls
-      enabled: true
+      enabled: false
       commonName: example.com
       issuer: letsencrypt-staging
       # Certificate for the root domain and wildcard
@@ -155,7 +154,7 @@ certs:
       push: 
         # If enabled, the certificate will be pushed to the vaults defined in certVaults
         # Will only work if certs.push.enabled and certVaults.enabled are true.
-        enabled: true
+        enabled: false
         # Refresh interval for the certificate in the vaults
         # This is the interval at which the certificate will be updated in the vaults
         # If not set, the default refresh interval from certs.push will be used.
@@ -164,10 +163,10 @@ certs:
         # Name of the secret in the vault. If not set the name of the certificate will be used.
         # secretName: example-com-tls
 
-        # Name of the vault to push the certificate to.
-        # If not set, the default vault from certs.push will be used.
-        # This vault must be defined in certVaults.
-        # secretStore: certs-push-vault
+        # Name of the stores to push the certificate to.
+        secretStores: 
+          - certs-push-vault
+          - another-certs-push-vault
 
 # Helm values passed to the cert-manager chart.
 cert-manager: 
