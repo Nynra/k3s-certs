@@ -18,7 +18,12 @@ metadata:
     argocd.argoproj.io/hook: PreSync
     argocd.argoproj.io/hook-delete-policy: HookFailed
     {{- end }}
-    # Global annotations
-    {{- if .Values.global.commonAnnotations }}
-    {{- toYaml .Values.global.commonAnnotations | nindent 4 }}
+    {{- if $.Values.global.commonAnnotations }}
+      # Global annotations
+      {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}
     {{- end }}
+  {{- if $.Values.global.commonLabels }}  
+  labels:
+    # Global labels
+    {{- toYaml $.Values.global.commonLabels | nindent 4 }}
+  {{- end }}

@@ -10,11 +10,13 @@ metadata:
   annotations:
     reflector.v1.k8s.emberstack.com/reflects: "{{ .reflectedSecret.originNamespace }}/{{ .reflectedSecret.originSecretName }}"
     argo-cd.argoproj.io/sync-wave: "2"
-    {{- if $.Values.global.commonAnnotations }}
+      {{- if $.Values.global.commonAnnotations }}
+      # Global annotations
       {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}
     {{- end }}
   {{- if $.Values.global.commonLabels }}  
   labels:
+    # Global labels
     {{- toYaml $.Values.global.commonLabels | nindent 4 }}
   {{- end }}
 {{- end }}
@@ -33,10 +35,12 @@ metadata:
     reflector.v1.k8s.emberstack.com/reflects: "{{ .reflectedSecret.originNamespace }}/{{ .reflectedSecret.originSecretName }}"
     argo-cd.argoproj.io/sync-wave: "2"
     {{- if $.Values.global.commonAnnotations }}
+      # Global annotations
       {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}
     {{- end }}
   {{- if $.Values.global.commonLabels }}  
   labels:
+    # Global labels
     {{- toYaml $.Values.global.commonLabels | nindent 4 }}
   {{- end }}
 {{- end }}
@@ -55,13 +59,16 @@ metadata:
     reflector.v1.k8s.emberstack.com/reflects: "{{ .reflectedSecret.originNamespace }}/{{ .reflectedSecret.originSecretName }}"
     argo-cd.argoproj.io/sync-wave: "2"
     {{- if $.Values.global.commonAnnotations }}
-      {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}
+    # Global annotations
+    {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}
     {{- end }}
   {{- if $.Values.global.commonLabels }}  
   labels:
+    # Global labels
     {{- toYaml $.Values.global.commonLabels | nindent 4 }}
   {{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
+
 {{- end }}

@@ -10,9 +10,9 @@ metadata:
   namespace: {{ $.Release.Namespace | quote }}
   annotations:
     argocd.argoproj.io/sync-wave: "3"
-    # Global annotations
     {{- if $.Values.global.commonAnnotations }}
-      {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}
+    # Global annotations
+    {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}
     {{- end }}
   {{- if $.Values.global.commonLabels }}  
   labels:
