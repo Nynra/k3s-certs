@@ -39,13 +39,11 @@ spec:
     - match:
         secretKey: tls.crt 
         remoteRef:
-            remoteKey: {{ $remoteName }}
-            property: tls_crt
+          remoteKey: "{{ $remoteName }}/tls_crt"
     - match:
         secretKey: tls.key
         remoteRef:
-            remoteKey: {{ $remoteName }}
-            property: tls_key
+          remoteKey: "{{ $remoteName }}/tls_key"
 {{- end }}
 {{- end }}
 {{- end }}

@@ -30,8 +30,7 @@ spec:
   data:
     - secretKey: token
       remoteRef:
-        key: {{ .externalSecret.secretName | quote }}
-        property: {{ .externalSecret.secretField | default "password" | quote }}
+        key: "{{ .externalSecret.secretName }}/{{ .externalSecret.secretField | default "password" }}"
 {{- end }}{{- end }}
 {{- end }}
 {{- end }}
@@ -67,8 +66,7 @@ spec:
   data:
     - secretKey: token
       remoteRef:
-        key: {{ .externalSecret.secretName | quote }}
-        property: {{ .externalSecret.secretField | default "password" | quote }}
+        key: "{{ .externalSecret.secretName }}/{{ .externalSecret.secretField | default "password" }}"
 {{- end }}{{- end }}
 {{- end }}
 {{- end }}
@@ -104,8 +102,7 @@ spec:
   data: 
     - secretKey: token
       remoteRef:
-        key: {{ .externalSecret.secretName | quote }}
-        property: {{ .externalSecret.secretField | quote }}
+        key: "{{ .externalSecret.secretName }}/{{ .externalSecret.secretField | default "password" }}"
 {{- end }}{{- end }}
 {{- end }}
 {{- end }}
