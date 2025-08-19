@@ -28,7 +28,7 @@ spec:
     {{- end }}
   issuerRef:
     name: {{ .issuer | quote }}
-    kind: issuer
+    kind: Issuer
 {{- end }}
 {{- end }}
 {{- end }}
