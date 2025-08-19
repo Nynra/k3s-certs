@@ -29,4 +29,5 @@ spec:
           key: token
           {{- end }}
 {{- end }}
+{{- end }}
 {{- end }}{{- end }}
