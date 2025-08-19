@@ -203,3 +203,7 @@ cert-manager:
     enabled: false
     podmonitor:
       enabled: false
+
+  webhook:
+    networkPolicy:
+      enabled: true
