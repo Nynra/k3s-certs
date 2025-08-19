@@ -1,4 +1,4 @@
-{{- if .Values.enableExternalSecrets }}{{- if .Values.certStores.enabled }}
+{{- if .Values.enabled }}{{- if .Values.certStores.enabled }}
 {{- range .Values.certStores.stores }}
 {{- if .enabled }}
 apiVersion: external-secrets.io/v1
@@ -28,6 +28,5 @@ spec:
           {{- else }}
           key: token
           {{- end }}
-{{- end }}
 {{- end }}
 {{- end }}{{- end }}
