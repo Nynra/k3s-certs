@@ -5,7 +5,6 @@
 ---
 apiVersion: cert-manager.io/v1
 kind: Issuer
-namespace: {{ $.Release.Namespace | quote }}
 metadata:
   name: {{ .name | quote }}
   annotations:
