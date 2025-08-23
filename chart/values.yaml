@@ -121,6 +121,7 @@ clusterIssuers:
 # Enable certs management using the defined issuers
 certs:
   enabled: false
+  allowReflection: false
   certs:
     - name: example-com-tls
       enabled: false
@@ -130,6 +131,11 @@ certs:
       dnsNames:
         - example.com
         - "*.example.com"
+      reflector:
+        enabled: true
+        allowedNamespaces: "example-namespace1,example-namespace2"
+        allowAutoReflection: true
+        autoReflectionNamespaces: "example-namespace1,example-namespace2"
 
 # Helm values passed to the cert-manager chart.
 cert-manager: 
@@ -154,3 +160,29 @@ cert-manager:
   webhook:
     networkPolicy:
       enabled: true
+
+# Helm values passed to the reflector chart.
+# https://github.com/emberstack/kubernetes-reflector/blob/main/src/helm/reflector/values.yaml
+reflector: 
+  enabled: false
+  replicaCount: 1
+  cron:
+    enabled: false
+    schedule: "*/15 * * * *"
+    activeDeadlineSeconds: 600
+  resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  topologySpreadConstraints: []
+  priorityClassName: ""

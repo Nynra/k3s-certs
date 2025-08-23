@@ -8,3 +8,7 @@ dependencies:
   version: v1.17.2
   repository: "https://charts.jetstack.io"
   condition: cert-manager.enabled
+- name: reflector
+  version: "9.1.22"
+  repository: https://emberstack.github.io/helm-charts
+  condition: reflector.enabled
