@@ -103,6 +103,7 @@ spec:
     - secretKey: token
       remoteRef:
         key: "{{ .externalSecret.secretName }}/{{ .externalSecret.secretField | default "password" }}"
+        #
 {{- end }}{{- end }}
 {{- end }}
 {{- end }}
