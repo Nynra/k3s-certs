@@ -118,35 +118,6 @@ clusterIssuers:
         originNamespace: default
         originSecretName: cloudflare-issuer-secret
 
-# Scoped external secret vaults to push certificates to. To use these vaults
-# external-secrets must be configured to use the vaults and have read/write
-# permissions to the vaults.
-# This is useful for pushing certificates to a vault like 1Password for use
-# in other namespaces or clusters.
-certStores:
-  enabled: false
-  stores:
-    - name: certs-push-vault
-      enabled: false
-      vault: kubernetes-certs-vault
-      # Make sure the token has read and write permissions to the vault
-      # otherwise issues will arise during creation/deletion
-      secretName: certs-push-token
-      externalSecret:
-        enabled: false
-        secretName: certVaultToken
-        storeName: kubernetes-certs-vault
-        # Type is optional but will default to ClusterSecretStore
-        # storeType: ClusterSecretStore
-        # Optional, the field in the secret that contains the access token
-        # secretField: "password"
-      reflectedSecret:
-        # If set to true the chart will create a reflected secret in the namespace
-        # with the name of the secretName property.
-        enabled: true
-        originNamespace: default
-        originSecretName: certs-push-vault-token
-
 # Enable certs management using the defined issuers
 certs:
   enabled: false
