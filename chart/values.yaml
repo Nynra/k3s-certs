@@ -150,14 +150,6 @@ certStores:
 # Enable certs management using the defined issuers
 certs:
   enabled: false
-
-  # If enabled, the operator will push the certificates to the vaults defined in certPushVaults
-  push: 
-    # If enabled, the certificates will be pushed to the vaults defined in certPushVaults
-    enabled: false
-    # Default settings for certificates pushed to vaults
-    refreshInterval: 1h
-
   certs:
     - name: example-com-tls
       enabled: false
@@ -167,22 +159,6 @@ certs:
       dnsNames:
         - example.com
         - "*.example.com"
-      push: 
-        # If enabled, the certificate will be pushed to the vaults defined in certVaults
-        # Will only work if certs.push.enabled and certVaults.enabled are true.
-        enabled: false
-        # Refresh interval for the certificate in the vaults
-        # This is the interval at which the certificate will be updated in the vaults
-        # If not set, the default refresh interval from certs.push will be used.
-        # refreshInterval: 1h
-
-        # Name of the secret in the vault. If not set the name of the certificate will be used.
-        # secretName: example-com-tls
-
-        # Name of the stores to push the certificate to.
-        secretStores: 
-          - certs-push-vault
-          - another-certs-push-vault
 
 # Helm values passed to the cert-manager chart.
 cert-manager: 
