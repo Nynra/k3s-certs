@@ -159,7 +159,7 @@ cert-manager:
 
   webhook:
     networkPolicy:
-      enabled: true
+      enabled: false
 
 # Helm values passed to the reflector chart.
 # https://github.com/emberstack/kubernetes-reflector/blob/main/src/helm/reflector/values.yaml
